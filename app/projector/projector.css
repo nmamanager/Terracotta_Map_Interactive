@@ -1,0 +1,128 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  cursor: none;
+  user-select: none;
+}
+
+#viewport {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1200px;
+  transform-origin: 0 0;
+  background: #000;
+}
+
+#map {
+  position: absolute;
+  left: 420px;
+  top: 60px;
+  width: 1080px;
+  height: 1080px;
+  overflow: hidden;
+  background: #dcdcdc;
+}
+
+#map > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#clouds {
+  opacity: 0.5;
+}
+
+#lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1200px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.place path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.place .lead {
+  stroke: #e78530;
+  stroke-width: 4;
+  opacity: 0.7;
+  filter: url(#line-glow);
+}
+
+.place .follow {
+  stroke: #ffdfc3;
+  stroke-width: 3;
+  opacity: 0.7;
+  filter: url(#line-glow);
+}
+
+.place .lead, .place .follow {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+.place .follow {
+  transition-delay: 0.03s;
+}
+
+.place[data-phase="retracting"] .lead,
+.place[data-phase="retracting"] .follow {
+  transition-duration: 0.3s;
+  transition-delay: 0s;
+}
+
+.place[data-phase="hidden"] {
+  visibility: hidden;
+}
+
+.place .glow {
+  fill: url(#glow-fill);
+  stroke: none;
+  opacity: 0;
+}
+
+.place[data-phase="drawn"] .glow {
+  animation: glow-grow 1s forwards, glow 4s 1s infinite;
+}
+
+.place[data-phase="retracting"] .glow {
+  animation: glow-go 0.15s forwards;
+}
+
+@keyframes glow-grow {
+  from { opacity: 0; }
+  to { opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  25%, 75% { opacity: 0.7; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes glow-go {
+  from { opacity: 0.5; }
+  to { opacity: 0; }
+}
+
+body.debug #stage { outline: 2px dashed #0f0; }
+body.debug #map { outline: 2px dashed #f0f; }
