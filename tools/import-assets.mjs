@@ -3,11 +3,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 
 const SRC = process.argv.slice(2).find((a) => !a.startsWith('--')) ?? 'C:/Users/Digital PC/Documents/TW Map Interactive files';
 const CHECK_ONLY = process.argv.includes('--check');
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ASSETS = path.join(ROOT, 'app', 'assets');
 const CONTENT_JS = path.join(ROOT, 'app', 'shared', 'content.js');
 
