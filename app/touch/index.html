@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Qin Mausoleum Map – Touch</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="touch.css">
+  <script src="../shared/kiosk-guard.js"></script>
+</head>
+<body>
+  <main id="app">
+    <section id="home" class="view active" aria-label="Zone home">
+      <header>
+        <h1 class="title"></h1>
+        <p class="zone"></p>
+        <p class="hint">Touch a place to light it up on the map</p>
+      </header>
+      <div class="minimap" aria-hidden="true"></div>
+      <nav class="cards"></nav>
+    </section>
+
+    <section id="detail" class="view" aria-label="Place detail">
+      <aside class="left">
+        <div class="minimap" aria-hidden="true"><img alt=""></div>
+        <button class="back" type="button"><span class="chev" aria-hidden="true"></span>Back</button>
+      </aside>
+      <article class="right">
+        <h1 class="name"></h1>
+        <p class="warning"></p>
+        <p class="body"></p>
+        <div class="media">
+          <div class="hero">
+            <img alt="">
+            <button class="nav prev" type="button" aria-label="Previous image"></button>
+            <button class="nav next" type="button" aria-label="Next image"></button>
+            <span class="counter"></span>
+            <span class="credit"></span>
+          </div>
+          <div class="thumbs"></div>
+        </div>
+      </article>
+    </section>
+
+    <section id="lightbox" class="view" aria-label="Image viewer">
+      <img alt="">
+      <button class="nav prev" type="button" aria-label="Previous image"></button>
+      <button class="nav next" type="button" aria-label="Next image"></button>
+      <button class="close" type="button" aria-label="Close"></button>
+      <span class="counter"></span>
+      <p class="caption"></p>
+    </section>
+  </main>
+
+  <div id="staff" hidden>
+    <div class="panel">
+      <p class="status"></p>
+      <div class="pin"></div>
+      <div class="screens"></div>
+      <button type="button" class="dismiss">Close</button>
+    </div>
+  </div>
+  <div id="staff-corner" aria-hidden="true"></div>
+
+  <script src="../shared/content.js"></script>
+  <script src="../shared/hub-client.js"></script>
+  <script src="touch.js"></script>
+</body>
+</html>
