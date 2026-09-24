@@ -10,7 +10,7 @@ All content reaches the apps through one generated file, `app/shared/content.js`
 | Full-size images, icons, and minimaps | `Website.zip` |
 | Line and glow artwork | `svgs/mainmap/5693x-<place>-connector.svg` and `-glow.svg` |
 | Line positions on the projector | WAM's `style.css` inside `Website.zip`, rebuilt onto WAM's 1920 × 1200 projector frame |
-| Projector base map | `mausoleum_lit_filledkiosks_darklinesV1.png` |
+| Projector base map | `content/map/base.png`, made by `tools/clean-base-map.mjs` from WAM's `mausoleum_lit_filledkiosks_darklinesV1.png` |
 | Cloud shadows | `mausoleum_cloudshadow_5mloop_slowfade.webm` |
 | Canberra size comparison | `content/size/canberra-comparison.png`, made by `tools/make-canberra-overlay.mjs` |
 | Screen assignment, zone names, and the size card text | The `SCREENS` and `SIZE_CARD` constants at the top of `tools/import-assets.mjs` |
@@ -49,6 +49,12 @@ The plan comes from WAM's site minimap (`minimap_pyramid.png`). Its scale comes 
 A 2,165 × 940 m wall has a perimeter of 6.2 km. The "Mausoleum of the First Qin Emperor" article on English Wikipedia gives the outer wall's circumference as 6.3 km, and puts the Terracotta Army about 1.5 km east of the tomb mound. Ask the curators to confirm the 2,165 m figure before the exhibition opens, because the whole comparison's scale rests on it. The size card text and the Parliament House placement are NMA choices and also need curator sign-off.
 
 The image caption credits OpenStreetMap, as its licence requires: "Canberra map data © OpenStreetMap contributors (openstreetmap.org/copyright)".
+
+## Change the projector base map
+
+WAM's base map included a painted rectangle for the Workers' graves pit, because that pit was missing from WAM's 3D print. NMA removed it: `tools/clean-base-map.mjs` fills the rectangle from the lighting around it and writes `content/map/base.png`. The Workers' graves line and glow still trace the pit when a visitor selects it.
+
+To use a different base map, replace `content/map/base.png` with a 1080 × 1080 PNG and rebuild the content. To go back to WAM's original, delete `content/map/base.png` and rebuild the content.
 
 ## Change the fonts
 

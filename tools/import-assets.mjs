@@ -221,7 +221,8 @@ function build() {
   }
 
   const zoneMinimap = put(path.join(web, 'minimap_map.png'), 'minimaps/overview.png');
-  put(path.join(SRC, 'mausoleum_lit_filledkiosks_darklinesV1.png'), 'map/base.png');
+  const cleanBase = path.join(ROOT, 'content', 'map', 'base.png');
+  put(fs.existsSync(cleanBase) ? cleanBase : path.join(SRC, 'mausoleum_lit_filledkiosks_darklinesV1.png'), 'map/base.png');
   put(path.join(SRC, 'mausoleum_cloudshadow_5mloop_slowfade.webm'), 'map/clouds.webm');
 
   const content = {
