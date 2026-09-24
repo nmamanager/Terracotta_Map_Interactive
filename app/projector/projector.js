@@ -113,15 +113,16 @@
 
   const stageToWindow = { s: 1, x: 0, y: 0 };
   function fit() {
-    stageToWindow.s = Math.min(innerWidth / C.stage.w, innerHeight / C.stage.h);
+    // The map square fills the window's height (1920x1080 or 1920x1200); the stage margins above and below it can fall off-screen.
+    stageToWindow.s = Math.min(innerWidth / C.stage.w, innerHeight / C.map.size);
     stageToWindow.x = (innerWidth - C.stage.w * stageToWindow.s) / 2;
-    stageToWindow.y = (innerHeight - C.stage.h * stageToWindow.s) / 2;
+    stageToWindow.y = innerHeight / 2 - (C.map.y + C.map.size / 2) * stageToWindow.s;
     viewport.style.transform = `translate(${stageToWindow.x}px, ${stageToWindow.y}px) scale(${stageToWindow.s})`;
   }
 
   function applyLayout(next) {
     layout = next;
-    stage.style.transform = homography(C.stage.w, C.stage.h, layout.keystone);
+    stage.style.transform = `${homography(C.map.size, C.map.size, layout.keystone)} translate(${-C.map.x}px, ${-C.map.y}px)`;
     clouds.style.opacity = layout.clouds.opacity;
     clouds.style.mixBlendMode = layout.clouds.blend;
     for (const id in places) {

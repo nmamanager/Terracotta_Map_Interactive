@@ -373,12 +373,12 @@ body.no-images .media {
   flex-direction: column;
   gap: 0.7rem;
   width: 6.5rem;
-  overflow: hidden;
+  min-height: 0;
 }
 
 .thumbs button {
-  flex: 0 0 auto;
-  aspect-ratio: 1;
+  flex: 0 1 6.5rem;
+  min-height: 0;
   background: #0c0c0c center / cover no-repeat;
   border: 2px solid transparent;
   border-radius: 0.2rem;

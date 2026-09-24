@@ -18,7 +18,7 @@ const screenByLandmark = Object.fromEntries(Object.values(content.landmarks).map
 
 const DEFAULT_LAYOUT = {
   anchors: { 1: { dx: 0, dy: 0 }, 2: { dx: 0, dy: 0 }, 3: { dx: 0, dy: 0 } },
-  keystone: [[0, 0], [content.stage.w, 0], [content.stage.w, content.stage.h], [0, content.stage.h]],
+  keystone: (({ x, y, size }) => [[x, y], [x + size, y], [x + size, y + size], [x, y + size]])(content.map),
   clouds: { opacity: 0.5, blend: 'normal' },
 };
 

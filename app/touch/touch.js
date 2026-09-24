@@ -99,7 +99,6 @@
     $('#detail .counter').textContent = `${ui.index + 1} / ${l.images.length}`;
     $('#detail .credit').textContent = im.credit || '';
     [...thumbs.children].forEach((b, i) => b.classList.toggle('current', i === ui.index));
-    thumbs.children[ui.index]?.scrollIntoView({ block: 'nearest' });
   }
 
   function renderLightbox(l) {

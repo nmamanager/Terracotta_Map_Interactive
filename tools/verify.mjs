@@ -220,7 +220,7 @@ try {
     await cal.call('Input.dispatchMouseEvent', { type: 'mousePressed', x: box.x, y: box.y, button: 'left', clickCount: 1 });
     await cal.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: box.x + 40, y: box.y + 30, button: 'left' });
     await cal.call('Input.dispatchMouseEvent', { type: 'mouseReleased', x: box.x + 40, y: box.y + 30, button: 'left' });
-    await cal.waitFor(`calibration.draft.keystone[0][0] > 20`);
+    await cal.waitFor(`calibration.draft.keystone[0][0] > 440`);
     await cal.screenshot(path.join(ART, 'projector-calibration.png'));
     const styles = await cal.eval(`document.head.querySelectorAll('style').length`);
     await cal.eval(`calibration.toggle()`);
@@ -229,6 +229,38 @@ try {
     expect((await cal.eval(`document.head.querySelectorAll('style').length`)) === styles, 'style tags accumulate on reopen');
     cal.close();
   });
+
+  for (const [width, height] of [[1920, 1080], [1920, 1200]]) {
+    await check(`${width}x${height}: projector map square is as large as fits, centred; every touch page fits with nothing clipped`, async () => {
+      const proj = await browser.open(`http://${HUB}/projector/`, { width, height });
+      const map = JSON.parse(await proj.eval(`JSON.stringify(document.getElementById('map').getBoundingClientRect())`));
+      const size = Math.min(height, (C.map.size * width) / C.stage.w);
+      expect(Math.abs(map.height - size) < 1 && Math.abs(map.top - (height - size) / 2) < 1 && Math.abs(map.left + map.width / 2 - width / 2) < 1, `map box ${JSON.stringify(map)}, wanted ${size}px centred`);
+      proj.close();
+      const page = await browser.open(touchUrl(1), { width, height, touch: true });
+      const clipped = `JSON.stringify([...document.querySelectorAll('.view.active *')].filter((e) => { const r = e.getBoundingClientRect(); return r.height && (r.bottom > innerHeight + 1 || r.top < -1 || r.right > innerWidth + 1); }).map((e) => e.className || e.tagName))`;
+      const problems = [];
+      for (const s of [1, 2, 3]) {
+        await page.call('Page.navigate', { url: touchUrl(s) });
+        await page.waitFor(`document.readyState === 'complete' && document.querySelectorAll('.card').length === 4`);
+        await sleep(400);
+        const home = JSON.parse(await page.eval(clipped));
+        if (home.length) problems.push(`screen ${s} home: ${home}`);
+        for (const id of C.screens[s].landmarks) {
+          await page.eval(`touch.set({ view: 'detail', landmark: ${JSON.stringify(id)}, index: 0 })`);
+          await sleep(500);
+          const bad = JSON.parse(await page.eval(clipped));
+          if (bad.length) problems.push(`${id}: ${bad}`);
+        }
+        await page.eval(`touch.set({ view: 'home', landmark: null, index: 0 })`);
+      }
+      await page.eval(`touch.set({ view: 'detail', landmark: 'waterbirds', index: 0 })`);
+      await sleep(500);
+      await page.screenshot(path.join(ART, `touch-${width}x${height}-waterbirds.png`));
+      page.close();
+      expect(problems.length === 0, problems.join('\n'));
+    });
+  }
 
   await check('no script errors or failed requests on any page', async () => {
     const pages = { projector, touch1: touch[1], touch2: touch[2] };
