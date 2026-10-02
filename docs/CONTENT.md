@@ -52,7 +52,9 @@ The image caption credits OpenStreetMap, as its licence requires: "Canberra map 
 
 ## Change the projector base map
 
-WAM's base map included a painted rectangle for the Workers' graves pit, because that pit was missing from WAM's 3D print. NMA removed it: `tools/clean-base-map.mjs` fills the rectangle from the lighting around it and writes `content/map/base.png`. The Workers' graves line and glow still trace the pit when a visitor selects it.
+WAM's base map included a painted rectangle for the Workers' graves pit, because that pit was missing from WAM's 3D print. `MausoleumMap.stl`, the model NMA prints, does include the pit: a recess 12 mm deep, like every other pit, 390 × 116 mm, about 1.4 km west of the pyramid. So NMA removed the painted rectangle: `tools/clean-base-map.mjs` fills it from the lighting around it and writes `content/map/base.png`.
+
+WAM drew the Workers' graves line and glow 8.5 map pixels north of where the STL puts the pit. `ALIGN_TO_STL` in `tools/import-assets.mjs` moves them onto the pit. Every other outline already matches the STL.
 
 To use a different base map, replace `content/map/base.png` with a 1080 × 1080 PNG and rebuild the content. To go back to WAM's original, delete `content/map/base.png` and rebuild the content.
 

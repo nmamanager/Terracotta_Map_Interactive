@@ -948,7 +948,7 @@ window.TCW_CONTENT = {
       "projection": {
         "place": {
           "x": 1281,
-          "y": 171.24,
+          "y": 162.74,
           "s": 0.45
         },
         "line": [

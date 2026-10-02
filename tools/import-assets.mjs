@@ -34,6 +34,10 @@ const ONEDRIVE_FOLDERS = {
   armour: 'Pit of Stone Armour', horses: 'Horse Stable Pits',
 };
 
+// MausoleumMap.stl, which NMA prints, has the workers' graves pit 8.5 map px further south than WAM drew its outline
+// (WAM's own print lacked the pit). Measured with Blender ray casts; the projector frame is the model rotated 180°.
+const ALIGN_TO_STL = { craftsmen: { dx: 0, dy: -8.5 } };
+
 const SIZE_CARD = {
   title: 'Size of the Mausoleum',
   body: 'Visual comparison between the size of the Qin Mausoleum complex and central Canberra, with Qin Shihuang’s pyramid placed over Parliament House.',
@@ -158,6 +162,8 @@ function placeConnector(box, svg) {
   return { x: x + (w - svg.w * s) / 2, y: y + (h - svg.h * s) / 2, s };
 }
 
+const alignToStl = (id, place) => ({ ...place, x: place.x + (ALIGN_TO_STL[id]?.dx ?? 0), y: place.y + (ALIGN_TO_STL[id]?.dy ?? 0) });
+
 const round = (n) => Math.round(n * 100) / 100;
 
 function copy(from, to) {
@@ -212,7 +218,7 @@ function build() {
         minimap: put(path.join(web, `minimap_${id}.png`), `minimaps/${id}.png`),
         images,
         projection: {
-          place: Object.fromEntries(Object.entries(placeConnector(boxes[id], connectorSvg)).map(([k, v]) => [k, round(v)])),
+          place: Object.fromEntries(Object.entries(alignToStl(id, placeConnector(boxes[id], connectorSvg))).map(([k, v]) => [k, round(v)])),
           line: connectorSvg.points.map((p) => [p.x, p.y]),
           glow: glowSvg.points.map((p) => [round(p.x + off.dx), round(p.y + off.dy)]),
         },
