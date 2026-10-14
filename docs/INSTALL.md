@@ -18,6 +18,8 @@ You need:
 1. Sign in as the kiosk account.
 2. Copy this repository to `C:\tcw-map` on every PC. Use `git clone` or copy the folder. A path without spaces avoids quoting problems in the startup scripts.
 
+Windows blocks `.ps1` scripts by default. The commands below run each script with `-ExecutionPolicy Bypass`, which applies to that one command and leaves the PC's policy unchanged. `Unblock-File` clears the "downloaded from the internet" mark that Windows adds to files from a zip or browser download.
+
 ## Set up the projector PC
 
 1. Connect the projector. Note which display number Windows gives it. Displays are counted from the left starting at 0, in the order **Settings > System > Display** arranges them.
@@ -26,7 +28,8 @@ You need:
 
 	```powershell
 	cd C:\tcw-map\kiosk
-	.\install.ps1 -Role projector -Monitor 1
+	Get-ChildItem .. -Recurse | Unblock-File
+	powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Role projector -Monitor 1
 	```
 
 	Replace `1` with the projector's display number.
@@ -47,7 +50,8 @@ The script does four things:
 
 	```powershell
 	cd C:\tcw-map\kiosk
-	.\install.ps1 -Role touch -Screen 1 -Hub 192.168.10.50
+	Get-ChildItem .. -Recurse | Unblock-File
+	powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 -Role touch -Screen 1 -Hub 192.168.10.50
 	```
 
 	| Screen | Where it stands | Places it shows |
@@ -103,7 +107,7 @@ Tap the top-left corner of the touch screen five times within three seconds. Ent
 In an administrator PowerShell, signed in as the kiosk account:
 
 ```powershell
-C:\tcw-map\kiosk\setup_kiosk_os.ps1 -Role touch -Undo
+powershell -NoProfile -ExecutionPolicy Bypass -File C:\tcw-map\kiosk\setup_kiosk_os.ps1 -Role touch -Undo
 Unregister-ScheduledTask -TaskName 'TCW Map Kiosk' -Confirm:$false
 ```
 
