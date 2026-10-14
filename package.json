@@ -1,0 +1,14 @@
+{
+  "name": "tcw-map-interactive",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "hub": "node server/hub.mjs",
+    "test": "node --test server/*.test.mjs",
+    "verify": "node tools/verify.mjs",
+    "import": "node tools/import-assets.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

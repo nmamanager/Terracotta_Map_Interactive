@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Qin Mausoleum Map – Test harness</title>
+  <link rel="icon" href="data:,">
+  <style>
+    html, body { margin: 0; height: 100%; background: #0b0b0b; color: #ccc; font: 14px/1.3 system-ui, sans-serif; overflow: hidden; }
+    #grid { display: grid; grid-template: 1fr 1fr / 1fr 1fr; gap: 6px; height: calc(100% - 34px); padding: 0 6px 6px; box-sizing: border-box; }
+    .pane { position: relative; overflow: hidden; background: #000; border: 1px solid #333; }
+    .pane b { position: absolute; left: 6px; top: 4px; z-index: 2; color: #e78530; pointer-events: none; text-shadow: 0 0 3px #000; }
+    .pane iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; }
+    header { height: 34px; display: flex; align-items: center; gap: 18px; padding: 0 10px; }
+    header a { color: #ffdfc3; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Qin Mausoleum Map · test harness</strong>
+    <span>Click cards on any touch pane; the projector pane shows the line. Everything talks to the real hub.</span>
+    <a href="../projector/?calibrate" target="_blank">Projector (calibrate)</a>
+    <a id="solo" target="_blank">Single touch screen + map preview</a>
+  </header>
+  <div id="grid">
+    <div class="pane"><b>Projector</b><iframe data-src="../projector/"></iframe></div>
+    <div class="pane"><b>Touch 1 · Northern</b><iframe data-src="../touch/?screen=1&cursor"></iframe></div>
+    <div class="pane"><b>Touch 2 · Eastern</b><iframe data-src="../touch/?screen=2&cursor"></iframe></div>
+    <div class="pane"><b>Touch 3 · Western</b><iframe data-src="../touch/?screen=3&cursor"></iframe></div>
+  </div>
+  <script src="../shared/content.js"></script>
+  <script>
+    const { w, h } = window.TCW_CONTENT.stage;
+    const hub = location.host;
+    for (const f of document.querySelectorAll('iframe')) f.src = `${f.dataset.src}&hub=${hub}`.replace('/&', '/?');
+    document.getElementById('solo').href = `../touch/?screen=1&preview&cursor&hub=${hub}`;
+    function fit() {
+      for (const pane of document.querySelectorAll('.pane')) {
+        const r = pane.getBoundingClientRect();
+        const s = Math.min(r.width / w, r.height / h);
+        const frame = pane.querySelector('iframe');
+        frame.style.width = `${w}px`;
+        frame.style.height = `${h}px`;
+        frame.style.transform = `translate(${(r.width - w * s) / 2}px, ${(r.height - h * s) / 2}px) scale(${s})`;
+      }
+    }
+    addEventListener('resize', fit);
+    fit();
+  </script>
+</body>
+</html>
