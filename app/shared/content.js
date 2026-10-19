@@ -20,7 +20,8 @@ window.TCW_CONTENT = {
         "concubines",
         "size"
       ],
-      "flipMinimap": false
+      "flipMinimap": false,
+      "minimap": "assets/minimaps/zone-1.png"
     },
     "2": {
       "zone": "Explore the Eastern Zone",
@@ -30,7 +31,8 @@ window.TCW_CONTENT = {
         "armour",
         "horses"
       ],
-      "flipMinimap": true
+      "flipMinimap": true,
+      "minimap": "assets/minimaps/zone-2.png"
     },
     "3": {
       "zone": "Explore the Western Zone",
@@ -40,7 +42,8 @@ window.TCW_CONTENT = {
         "officials",
         "animals"
       ],
-      "flipMinimap": true
+      "flipMinimap": true,
+      "minimap": "assets/minimaps/zone-3.png"
     }
   },
   "landmarks": {

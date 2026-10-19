@@ -31,15 +31,10 @@
 
   $('#home .title').textContent = C.title;
   $('#home .zone').textContent = screen.zone;
-  const stack = $('#home .minimap');
-  for (const id of screen.landmarks) {
-    const l = C.landmarks[id];
-    if (!l.minimap) continue;
-    const img = document.createElement('img');
-    img.src = `../${l.minimap}`;
-    img.alt = '';
-    stack.appendChild(img);
-  }
+  const zoneMap = document.createElement('img');
+  zoneMap.src = `../${screen.minimap}`;
+  zoneMap.alt = '';
+  $('#home .minimap').appendChild(zoneMap);
   const cards = $('#home .cards');
   for (const id of screen.landmarks) {
     const l = C.landmarks[id];

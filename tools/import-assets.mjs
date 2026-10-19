@@ -235,7 +235,10 @@ function build() {
     stage: STAGE, map: MAP,
     title: 'The Qin Mausoleum',
     zoneMinimap,
-    screens: SCREENS,
+    screens: Object.fromEntries(Object.entries(SCREENS).map(([n, s]) => {
+      const zone = path.join(ROOT, 'content', 'minimaps', `zone-${n}.png`);
+      return [n, { ...s, minimap: fs.existsSync(zone) ? put(zone, `minimaps/zone-${n}.png`) : zoneMinimap }];
+    })),
     landmarks,
   };
 

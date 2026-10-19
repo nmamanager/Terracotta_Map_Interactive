@@ -64,10 +64,12 @@ try {
   for (const s of [1, 2, 3]) await touch[s].waitFor(`document.body.dataset.hub === 'up'`);
   await projector.waitFor(`document.body.dataset.hub === 'up'`);
 
-  await check('content: 12 cards across 3 screens, 4 per screen, 11 with projections', async () => {
+  await check('content: 12 cards across 3 screens, 4 per screen, one home minimap image each, 11 with projections', async () => {
     for (const s of [1, 2, 3]) {
       const ids = JSON.parse(await touch[s].eval(`JSON.stringify([...document.querySelectorAll('.card')].map((c) => c.dataset.landmark))`));
       expect(JSON.stringify(ids) === JSON.stringify(C.screens[s].landmarks), `screen ${s} cards ${ids}`);
+      const layers = await touch[s].eval(`document.querySelectorAll('#home .minimap img').length`);
+      expect(layers === 1, `screen ${s} home minimap has ${layers} image layers (stacked layers misregister into double lines)`);
     }
     expect(Object.keys(await projector.eval('projector.places')).length === 11, 'projector places != 11');
   });

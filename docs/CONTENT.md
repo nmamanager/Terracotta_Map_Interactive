@@ -13,6 +13,7 @@ All content reaches the apps through one generated file, `app/shared/content.js`
 | Projector base map | `content/map/base.png`, made by `tools/clean-base-map.mjs` from WAM's `mausoleum_lit_filledkiosks_darklinesV1.png` |
 | Cloud shadows | `mausoleum_cloudshadow_5mloop_slowfade.webm` |
 | Canberra size comparison | `content/size/canberra-comparison.png`, made by `tools/make-canberra-overlay.mjs` |
+| Zone home-page minimaps | `content/minimaps/zone-<screen>.png`, made by `tools/make-zone-minimaps.mjs` from WAM's minimaps |
 | Screen assignment, zone names, and the size card text | The `SCREENS` and `SIZE_CARD` constants at the top of `tools/import-assets.mjs` |
 
 The WAM source files live in the folder passed to the importer. The default is `C:\Users\Digital PC\Documents\TW Map Interactive files`.
@@ -33,7 +34,7 @@ The importer stops with an error if a file is missing. It also stops if a line's
 
 ## Change the zone names or move a place to another screen
 
-Edit `SCREENS` in `tools/import-assets.mjs` and rebuild. Each screen shows up to four places. A place's line always starts from the screen that WAM drew it for. If you move a place to another screen, its line still starts at its original edge until you redraw its connector SVG.
+Edit `SCREENS` in `tools/import-assets.mjs` and rebuild. Then run `node tools/make-zone-minimaps.mjs` and rebuild again, so each home page's minimap highlights its new set of places. Each screen shows up to four places. A place's line always starts from the screen that WAM drew it for. If you move a place to another screen, its line still starts at its original edge until you redraw its connector SVG.
 
 ## Regenerate the Canberra comparison
 
