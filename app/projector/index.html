@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Qin Mausoleum Map – Projector</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="projector.css">
+</head>
+<body>
+  <div id="viewport">
+    <div id="stage">
+      <div id="map">
+        <img id="base" src="../assets/map/base.png" alt="">
+        <video id="clouds" src="../assets/map/clouds.webm" autoplay muted loop playsinline></video>
+      </div>
+      <svg id="lines" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="line-glow" x="-75%" y="-75%" width="250%" height="250%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="glow-fill">
+            <stop offset="0" stop-color="#ffdfc3"/>
+            <stop offset="1" stop-color="#e78530"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+  <script src="../shared/content.js"></script>
+  <script src="../shared/hub-client.js"></script>
+  <script src="projector.js"></script>
+  <script src="calibrate.js"></script>
+</body>
+</html>

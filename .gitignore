@@ -1,0 +1,9 @@
+node_modules/*
+!node_modules/ws/
+.cache/
+artifacts/
+config/layout.json
+*.log
+kiosk/station.json
+logs/
+chrome-profile/
